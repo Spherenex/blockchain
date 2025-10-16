@@ -1,0 +1,411 @@
+.admin-login-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 100px);
+    padding: 2rem;
+}
+
+.admin-login-card {
+    background: white;
+    padding: 3rem;
+    border-radius: 15px;
+    box-shadow: var(--shadow-lg);
+    max-width: 450px;
+    width: 100%;
+}
+
+.admin-login-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.admin-login-header h2 {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.admin-login-form {
+    margin-bottom: 1.5rem;
+}
+
+.admin-login-footer {
+    text-align: center;
+    color: var(--text-light);
+    font-size: 0.875rem;
+}
+
+/* Admin Dashboard */
+.admin-dashboard {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: white;
+    border-radius: 10px;
+    box-shadow: var(--shadow-md);
+}
+
+.admin-header h1 {
+    color: var(--primary-color);
+    font-size: 2rem;
+}
+
+.btn-logout {
+    background-color: var(--danger-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+.btn-logout:hover {
+    background-color: #dc2626;
+}
+
+/* Admin Navigation */
+.admin-nav {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    background: white;
+    padding: 1rem;
+    border-radius: 10px;
+    box-shadow: var(--shadow-sm);
+}
+
+.admin-nav button {
+    flex: 1;
+    padding: 1rem;
+    border: 2px solid var(--border-color);
+    background: white;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    color: var(--text-dark);
+}
+
+.admin-nav button:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.admin-nav button.active {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    border-color: transparent;
+}
+
+/* Admin Content */
+.admin-content {
+    background: white;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: var(--shadow-md);
+}
+
+/* Management Section */
+.management-section {
+    width: 100%;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.section-header h2 {
+    color: var(--primary-color);
+    font-size: 1.75rem;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+/* Registration Form */
+.registration-form {
+    background: var(--bg-light);
+    padding: 2rem;
+    border-radius: 10px;
+    margin-bottom: 2rem;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+}
+
+.form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+.btn-submit {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 1rem;
+    transition: transform 0.3s;
+}
+
+.btn-submit:hover:not(:disabled) {
+    transform: translateY(-2px);
+}
+
+.btn-submit:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* Biometric Capture */
+.biometric-capture {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem;
+    border: 2px dashed var(--border-color);
+    border-radius: 8px;
+}
+
+.btn-capture {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.3s;
+}
+
+.btn-capture:hover {
+    background-color: var(--primary-dark);
+}
+
+/* Data Table */
+.data-table {
+    overflow-x: auto;
+    margin-top: 1rem;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+thead {
+    background: var(--bg-light);
+}
+
+th {
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-dark);
+    border-bottom: 2px solid var(--border-color);
+}
+
+td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+tr:hover {
+    background: var(--bg-light);
+}
+
+.status-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.status-badge.pending {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.status-badge.voted {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+/* Voting Stats */
+.voting-stats {
+    width: 100%;
+}
+
+.stats-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.blockchain-status {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.status-valid {
+    background-color: #d1fae5;
+    color: var(--success-color);
+}
+
+.status-invalid {
+    background-color: #fee2e2;
+    color: var(--danger-color);
+}
+
+.stats-overview {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    color: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: var(--shadow-md);
+}
+
+.stat-card h3 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.9;
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Candidate Results */
+.candidate-results {
+    margin-bottom: 2rem;
+}
+
+.candidate-results h3 {
+    margin-bottom: 1.5rem;
+    color: var(--primary-color);
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+}
+
+.candidate-result-card {
+    background: white;
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    padding: 1.5rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.candidate-result-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.candidate-info h4 {
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.candidate-detail {
+    color: var(--text-light);
+    font-size: 0.875rem;
+    margin: 0.25rem 0;
+}
+
+.vote-info {
+    margin-top: 1rem;
+}
+
+.vote-count {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 10px;
+    background-color: var(--bg-light);
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 0.5rem;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    transition: width 0.3s;
+}
+
+.vote-percentage {
+    color: var(--text-light);
+    font-size: 0.875rem;
+}
+
+/* Recent Votes */
+.recent-votes {
+    margin-top: 2rem;
+}
+
+.recent-votes h3 {
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.votes-table {
+    margin-top: 1rem;
+}
+
+.hash-cell {
+    font-family: monospace;
+    font-size: 0.875rem;
+    color: var(--text-light);
+}
+
+.verified {
+    color: var(--success-color);
+    font-weight: bold;
+}
