@@ -20,16 +20,19 @@ const VoterLogin = ({ onLoginSuccess }) => {
         setLoading(true);
         try {
             const voter = await getVoterByAadhaar(aadhaar);
+
             if (!voter) {
                 setError('Voter not found. Please contact admin for registration.');
                 setLoading(false);
                 return;
             }
+
             if (voter.voteStatus === 1) {
                 setError('You have already cast your vote. Thank you for participating!');
                 setLoading(false);
                 return;
             }
+
             onLoginSuccess(voter);
         } catch (error) {
             console.error('Login error:', error);
@@ -43,7 +46,7 @@ const VoterLogin = ({ onLoginSuccess }) => {
         <div className="voter-login-container">
             <div className="voter-login-card">
                 <div className="voter-login-header">
-                    <h2>Voter Login</h2>
+                    <h2>🗳️ Voter Login</h2>
                     <p>Enter your Aadhaar number to begin authentication</p>
                 </div>
 
@@ -68,10 +71,11 @@ const VoterLogin = ({ onLoginSuccess }) => {
                 </form>
 
                 <div className="voter-info">
-                    <h3>Authentication Process</h3>
+                    <h3>Authentication Process:</h3>
                     <ol>
                         <li>Enter Aadhaar Number</li>
                         <li>Face Recognition</li>
+                        <li>Fingerprint Verification</li>
                         <li>OTP Verification</li>
                         <li>Cast Your Vote</li>
                     </ol>

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { addVoter, getVoters, deleteVoter, updateVoterStatus } from '../../services/firebase';
+import { addVoter, getVoters, deleteVoter, updateVoterStatus, registerFingerprint, waitForFingerprintRegistration } from '../../services/firebase';
 import { startCamera, stopCamera, captureFaceData } from '../../services/faceRecognition';
 import { validateAadhaar, validateName } from '../../utils/validators';
 import { exportToCSV, exportToJSON } from '../../utils/helpers';
@@ -10,10 +10,12 @@ const VoterManagement = () => {
     const [loading, setLoading] = useState(false);
     const [cameraActive, setCameraActive] = useState(false);
     const [stream, setStream] = useState(null);
+    const [fingerprintStatus, setFingerprintStatus] = useState('');
     const [formData, setFormData] = useState({
         name: '',
         aadhaar: '',
         faceData: null,
+        fingerprintData: null,
     });
     const [errors, setErrors] = useState({});
     const videoRef = useRef(null);
@@ -77,11 +79,47 @@ const VoterManagement = () => {
         }
     };
 
+    const handleCaptureFingerprint = async () => {
+        if (!validateAadhaar(formData.aadhaar)) {
+            setErrors({ ...errors, aadhaar: 'A valid 12-digit Aadhaar number is required first.' });
+            return;
+        }
+        setErrors({});
+        setLoading(true);
+        setFingerprintStatus('Preparing fingerprint scanner...');
+        try {
+            setFingerprintStatus(`Registering fingerprint with Aadhaar: ${formData.aadhaar}`);
+            // Send Aadhaar number to hardware via Firebase for registration
+            await registerFingerprint(formData.aadhaar);
+            setFingerprintStatus('Please place your finger on the scanner...');
+
+            // Wait for registration to complete
+            const success = await waitForFingerprintRegistration();
+
+            if (success) {
+                const fingerprintData = { aadhaar: formData.aadhaar, timestamp: new Date().toISOString(), registered: true };
+                setFormData({ ...formData, fingerprintData });
+                setFingerprintStatus('');
+                alert("Fingerprint captured successfully!");
+            } else {
+                setFingerprintStatus('Fingerprint registration timeout. Please try again.');
+                alert('Fingerprint registration timeout. Please try again.');
+            }
+        } catch (error) {
+            console.error("Fingerprint capture error:", error);
+            setFingerprintStatus(`Failed to capture fingerprint: ${error.message}`);
+            alert(`Failed to capture fingerprint: ${error.message}`);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const validateForm = () => {
         const newErrors = {};
         if (!validateName(formData.name)) newErrors.name = 'A valid name is required.';
         if (!validateAadhaar(formData.aadhaar)) newErrors.aadhaar = 'Aadhaar must be 12 digits.';
         if (!formData.faceData) newErrors.face = 'Face registration is required.';
+        if (!formData.fingerprintData) newErrors.fingerprint = 'Fingerprint registration is required.';
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -93,7 +131,7 @@ const VoterManagement = () => {
         try {
             await addVoter(formData);
             alert('Voter registered successfully!');
-            setFormData({ name: '', aadhaar: '', faceData: null });
+            setFormData({ name: '', aadhaar: '', faceData: null, fingerprintData: null });
             setShowForm(false);
             loadVoters();
         } catch (error) {
@@ -134,8 +172,10 @@ const VoterManagement = () => {
         }
     };
 
+    // JSX for the component remains largely the same...
     return (
         <div className="management-section">
+            {/* Header and Action Buttons */}
             <div className="section-header">
                 <h2>Voter Management</h2>
                 <div className="action-buttons">
@@ -147,9 +187,11 @@ const VoterManagement = () => {
                 </div>
             </div>
 
+            {/* Registration Form */}
             {showForm && (
                 <form onSubmit={handleSubmit} className="registration-form">
                     <div className="form-grid">
+                        {/* Name Field */}
                         <div className="form-group">
                             <label>Full Name</label>
                             <input
@@ -161,6 +203,7 @@ const VoterManagement = () => {
                             {errors.name && <span className="error">{errors.name}</span>}
                         </div>
 
+                        {/* Aadhaar Field */}
                         <div className="form-group">
                             <label>Aadhaar Number</label>
                             <input
@@ -173,6 +216,7 @@ const VoterManagement = () => {
                             {errors.aadhaar && <span className="error">{errors.aadhaar}</span>}
                         </div>
 
+                        {/* Face Registration */}
                         <div className="form-group full-width">
                             <label>Face Registration</label>
                             <div className="biometric-capture">
@@ -188,6 +232,19 @@ const VoterManagement = () => {
                                 {errors.face && <span className="error">{errors.face}</span>}
                             </div>
                         </div>
+
+                        {/* Fingerprint Registration */}
+                        <div className="form-group full-width">
+                            <label>Fingerprint Registration</label>
+                            <div className="biometric-capture">
+                                <button type="button" onClick={handleCaptureFingerprint} className="btn-capture" disabled={loading}>
+                                    {loading ? 'Processing...' : 'Capture Fingerprint'}
+                                </button>
+                                {fingerprintStatus && <div style={{ marginTop: '10px', color: '#2563eb', fontSize: '14px' }}>{fingerprintStatus}</div>}
+                                {formData.fingerprintData && <span className="success">Fingerprint Registered</span>}
+                                {errors.fingerprint && <span className="error">{errors.fingerprint}</span>}
+                            </div>
+                        </div>
                     </div>
                     <button type="submit" className="btn-submit" disabled={loading}>
                         {loading ? 'Registering...' : 'Register Voter'}
@@ -195,6 +252,7 @@ const VoterManagement = () => {
                 </form>
             )}
 
+            {/* Data Table */}
             <div className="data-table">
                 <table>
                     <thead>
