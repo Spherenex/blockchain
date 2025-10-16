@@ -329,7 +329,7 @@ export const verifyFingerprint = async (aadhaar) => {
             // Process is complete when 'verification' is 0 (by hardware or our timeout).
             if (snapshot.val() === 0 || snapshot.val() === '0') {
                 unsubscribe(); // Stop listening to prevent multiple resolutions.
-
+                
                 // Simply resolve with true when verification becomes 0
                 // No longer comparing aadhaar with finger value
                 resolve(true);
